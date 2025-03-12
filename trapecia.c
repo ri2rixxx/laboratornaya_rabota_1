@@ -19,18 +19,29 @@ struct Trapezoid {
     }
 };
 
-int main() 
-{
+int main() {
     Trapezoid trap;
 
     cout << "Введите длины оснований a и b: ";
     cin >> trap.a >> trap.b;
-    
+    if (trap.a < 0 || trap.b < 0) {
+        cout << "Ошибка: длины оснований должны быть неотрицательными!\n";
+        return 1;
+    }
+
     cout << "Введите длины боковых сторон c и d: ";
     cin >> trap.c >> trap.d;
+    if (trap.c < 0 || trap.d < 0) {
+        cout << "Ошибка: длины боковых сторон должны быть неотрицательными!\n";
+        return 1;
+    }
 
     cout << "Введите высоту h: ";
     cin >> trap.h;
+    if (trap.h < 0) {
+        cout << "Ошибка: высота должна быть неотрицательной!\n";
+        return 1;
+    }
 
     cout << "Средняя линия: " << trap.middleLine() << endl;
     cout << "Площадь: " << trap.area() << endl;
