@@ -18,6 +18,44 @@ struct Trapezoid {
     double perimeter() {
         return a + b + c + d;
     }
+
+    // Проверка существования трапеции
+    bool isValid() {
+        // 1. Высота должна быть меньше боковых сторон
+        if (h >= c || h >= d) {
+            cerr << "Ошибка: высота должна быть меньше боковых сторон!\n";
+            return false;
+        }
+
+        // 2. Сумма боковых сторон должна быть больше разности оснований
+        double minBase = min(a, b);
+        double maxBase = max(a, b);
+        double sideSum = c + d;
+        double baseDiff = maxBase - minBase;
+
+        if (sideSum <= baseDiff) {
+            cerr << "Ошибка: сумма боковых сторон должна быть больше разности оснований!\n";
+            return false;
+        }
+
+        // 3. Проверка, что высота не слишком маленькая при больших боковых сторонах
+        // Используем теорему Герона для проверки, существует ли трапеция
+        double semiPerimeter1 = (c + d + baseDiff) / 2;
+        double semiPerimeter2 = (c + d + maxBase - minBase) / 2;
+        
+        double triangleArea1 = sqrt(semiPerimeter1 * (semiPerimeter1 - c) * (semiPerimeter1 - d) * (semiPerimeter1 - baseDiff));
+        double triangleArea2 = sqrt(semiPerimeter2 * (semiPerimeter2 - c) * (semiPerimeter2 - d) * (semiPerimeter2 - (maxBase - minBase)));
+
+        double minHeight = 2 * triangleArea1 / baseDiff;
+        double altMinHeight = 2 * triangleArea2 / (maxBase - minBase);
+
+        if (h < minHeight || h < altMinHeight) {
+            cerr << "Ошибка: высота слишком мала для данных боковых сторон!\n";
+            return false;
+        }
+
+        return true;
+    }
 };
 
 int main() {
@@ -41,6 +79,11 @@ int main() {
     cin >> trap.h;
     if (trap.h <= 0) {
         cerr << "Ошибка: высота должна быть положительной!\n";
+        return 1;
+    }
+
+    // Проверяем, существует ли такая трапеция
+    if (!trap.isValid()) {
         return 1;
     }
 
