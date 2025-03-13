@@ -18,6 +18,28 @@ struct Trapezoid {
     double perimeter() {
         return a + b + c + d;
     }
+
+    // Проверка существования трапеции
+    bool isValid() {
+        // Проверяем, что высота не превышает боковые стороны
+        if (h >= c || h >= d) {
+            cerr << "Ошибка: высота должна быть меньше боковых сторон!\n";
+            return false;
+        }
+
+        // Проверяем, можно ли построить трапецию
+        double minBase = min(a, b);
+        double maxBase = max(a, b);
+        double sideSum = c + d;
+        double baseDiff = maxBase - minBase;
+
+        if (sideSum <= baseDiff) {
+            cerr << "Ошибка: сумма боковых сторон должна быть больше разности оснований!\n";
+            return false;
+        }
+
+        return true;
+    }
 };
 
 int main() {
@@ -41,6 +63,11 @@ int main() {
     cin >> trap.h;
     if (trap.h <= 0) {
         cerr << "Ошибка: высота должна быть положительной!\n";
+        return 1;
+    }
+
+    // Проверяем, существует ли такая трапеция
+    if (!trap.isValid()) {
         return 1;
     }
 
