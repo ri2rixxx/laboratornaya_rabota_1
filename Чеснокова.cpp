@@ -16,7 +16,7 @@ int main() {
 
     int choice;
     do {
-        cout << "\nВыберите, что вывести:" << endl;
+        cout << "\Выберите, что вывести:" << endl;
         cout << "1. Периметр" << endl;
         cout << "2. Площадь" << endl;
         cout << "3. Диагональ" << endl;
